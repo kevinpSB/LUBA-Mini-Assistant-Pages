@@ -1,0 +1,35 @@
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #183f35; background: #f4f5ef; line-height: 1.5; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: env(safe-area-inset-top) max(1rem, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(1rem, env(safe-area-inset-left)); }
+header, main, footer { max-width: 58rem; margin: auto; }
+header { padding: 2rem 0 1rem; }
+.brand { font-size: 1.5rem; font-weight: 800; letter-spacing: .08em; }
+.brand span { font-size: .7rem; display: block; letter-spacing: .2em; }
+header p, .muted { color: #53635a; }
+h1 { font-size: clamp(1.7rem, 6vw, 2.4rem); margin: .5rem 0; line-height: 1.2; }
+h2 { font-size: 1.25rem; margin-top: 0; }
+h3 { margin: 0; font-size: 1.15rem; }
+.panel, .card { background: #fff; border: 1px solid #dbe1d5; border-radius: 1.2rem; padding: 1.25rem; margin: 1rem 0; overflow-wrap: anywhere; }
+.hero { background: #183f35; color: white; }
+.hero .muted { color: #d2ded0; }
+.total { font-size: 2.25rem; font-weight: 650; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem; }
+.grid .card { margin: 0; }
+label { display: block; margin: .85rem 0; font-weight: 600; }
+input:not([type=checkbox]), select, textarea { display: block; width: 100%; margin-top: .35rem; padding: .75rem; border: 1px solid #879a8c; border-radius: .5rem; font: inherit; color: #183f35; background: white; min-width: 0; }
+textarea { min-height: 6rem; }
+input[type=checkbox] { width: 1.2rem; height: 1.2rem; vertical-align: middle; }
+button { min-height: 44px; padding: .65rem 1rem; border: 1px solid #183f35; border-radius: .6rem; background: #183f35; color: white; font: inherit; font-weight: 600; cursor: pointer; }
+button.secondary { background: transparent; color: #183f35; }
+button:disabled { opacity: .6; cursor: wait; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+summary { padding: .65rem 0; cursor: pointer; font-weight: 600; }
+.error { color: #8b251c; background: #fff0eb; padding: .8rem; border-radius: .5rem; }
+.error:empty { display: none; }
+.notice { padding: .5rem 0; }
+:focus-visible { outline: 3px solid #bb6c18; outline-offset: 3px; }
+footer { padding: 2rem 0; font-size: .875rem; color: #53635a; }
+ol { padding-left: 1.3rem; }
+li { padding: .5rem 0; }
+small { display: block; }
+@media (max-width: 450px) { header { padding-top: 1.25rem; } .panel, .card { padding: 1rem; } }
