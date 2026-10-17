@@ -1,9 +1,18 @@
+import { APP_VERSION } from './version.js';
+import { backupPanel } from './backup-ui.js';
 import { Repository } from './repository.js';
 const root = document.querySelector('#app');
 let repository;
 let selected;
 let snapshot;
 let busy = false;
+let dirty = false;
+root.addEventListener('input', event => { if (event.target.closest('form'))
+    dirty = true; });
+window.addEventListener('beforeunload', event => { if (dirty || busy) {
+    event.preventDefault();
+    event.returnValue = '';
+} });
 let status;
 function el(tag, text = '', className = '') {
     const node = document.createElement(tag);
@@ -47,8 +56,8 @@ function handle(form, save) {
             return;
         error.textContent = '';
         busy = true;
-        const buttons = [...root.querySelectorAll('button')];
-        buttons.forEach(b => b.disabled = true);
+        const buttons = [...root.querySelectorAll('button')].map(b => ({ b, disabled: b.disabled }));
+        buttons.forEach(({ b }) => b.disabled = true);
         try {
             await save(new FormData(form), event.submitter);
         }
@@ -57,7 +66,7 @@ function handle(form, save) {
         }
         finally {
             busy = false;
-            buttons.forEach(b => b.disabled = false);
+            buttons.forEach(({ b, disabled }) => b.disabled = disabled);
         }
     });
 }
@@ -154,6 +163,7 @@ async function render(notice = '') {
     const gardens = await repository.listGardens();
     selected ??= gardens[0]?.profileInstanceId;
     snapshot = selected ? await repository.load(selected) : undefined;
+    dirty = false;
     root.replaceChildren();
     status = el('p', notice, 'notice');
     status.setAttribute('role', 'status');
@@ -163,7 +173,7 @@ async function render(notice = '') {
         const label = el('label', 'Your gardens'), select = el('select');
         select.setAttribute('aria-label', 'Your gardens');
         for (const g of gardens) {
-            const option = el('option', g.displayName);
+            const option = el('option', g.localLabel ?? g.displayName);
             option.value = g.profileInstanceId;
             select.append(option);
         }
@@ -216,6 +226,7 @@ async function render(notice = '') {
     create.className = 'panel';
     create.append(gardenForm());
     root.append(create);
+    root.append(await backupPanel(repository, snapshot?.garden, value => { busy = value; }, async () => { dirty = false; await render('Restoration completed. All mapping revisions retained. New copies appear in Your gardens.'); }));
 }
 function showFatal(error) {
     const alert = el('p', message(error), 'error');
@@ -259,4 +270,5 @@ catch (error) {
     root.replaceChildren();
     showFatal(error);
 }
+document.querySelector('#version').textContent = `Version ${APP_VERSION} · Milestone 1C · No mower connection`;
 void offline();

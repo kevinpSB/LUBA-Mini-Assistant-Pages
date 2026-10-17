@@ -1,7 +1,7 @@
 // Cache Storage is origin-wide; only prune this registration's cache namespace.
 const PREFIX = `luba-shell:${encodeURIComponent(self.registration.scope)}:`;
-const CACHE = PREFIX + 'ac7cf4f16b7704af';
-const ASSETS = ['./', './index.html', './style.css', './manifest.webmanifest', './icon-192.png', './icon-512.png', './src/app.js', './src/domain.js', './src/repository.js'];
+const CACHE = PREFIX + '600c3af764fb6a56';
+const ASSETS = ['./', './index.html', './style.css', './manifest.webmanifest', './icon-192.png', './icon-512.png', './src/app.js', './src/domain.js', './src/repository.js', './src/backup.js', './src/backup-ui.js', './src/version.js'];
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
